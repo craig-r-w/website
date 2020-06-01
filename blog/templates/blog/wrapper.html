@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Blog</title>
+
+  <!-- Bootstrap: -->
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <h1>Blog</h1>
+
+  <div class="container-fluid">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+
+  <!--
+    |truncatewords:30
+    |lower
+    |escape
+    |linebreaks
+    |join:", "
+    |safe -> does not escape HTML
+    |truncatechars:7
+    |truncatechars_html:7
+  -->
+
+  <!--
+
+  {% for post in posts %}
+  {{ post.title }} <br>
+  {{ post.published_date|date:"D d M Y" }}
+  </br>
+  Published: {{ post.published_date|date:"d/m/Y" }} {{ post.published_date|time:"H:i" }}
+  </br>
+  Published {{ post.published_date|timesince }} ago.
+  </br>
+  </br>
+  {% endfor %}
+
+  -->
+
+  <!-- Each row adds up to 12. -->
+
+  <!--
+    <p class="text-center"></p>
+
+    <a href="#" class="btn btn-primary btn-block" role="button">View</a>
+  -->
+
+
+
+  <!--
+
+  <div class="row">
+
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="..." alt="...">
+        <div class="caption">
+          <h3>Thumbnail label</h3>
+          <p>...</p>
+          <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default"
+              role="button">Button</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="..." alt="...">
+        <div class="caption">
+          <h3>Thumbnail label</h3>
+          <p>...</p>
+          <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default"
+              role="button">Button</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="..." alt="...">
+        <div class="caption">
+          <h3>Thumbnail label</h3>
+          <p>...</p>
+          <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default"
+              role="button">Button</a></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  -->
+
+</body>
+
+</html>
