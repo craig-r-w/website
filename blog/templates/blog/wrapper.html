@@ -1,9 +1,12 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <title>Craig's Blog</title>
+
+  <!-- Ensure website works with mobiles. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Load in Bootstrap CSS -->
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -19,7 +22,7 @@
 
   <!-- Top navigation bar. -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 3%;">
-    
+
     <!-- Title -->
     <a class="navbar-brand" href="/">Craig's Blog</a>
 
@@ -31,7 +34,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        
+
         <!-- Home button. -->
         <li class="nav-item">
           <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
@@ -52,9 +55,20 @@
 
   </nav>
 
+  <!-- Main content. -->
   <div class="container-fluid" style="width: 90%">
     {% block content %}
     {% endblock %}
+    </br>
+  </div>
+
+  <!-- Used to display a permanent footer. -->
+  <!-- This is not visible if no footer content is given. -->
+  <div class="fixed-bottom">
+    <div class="container-fluid bg-light text-black-50">
+      {% block footer %}
+      {% endblock %}
+    </div>
   </div>
 
 </body>
