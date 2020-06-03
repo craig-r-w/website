@@ -31,7 +31,7 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True, verbose_name="Date Published")
 
     # The image to be displayed on the post.
-    image = models.ForeignKey(ImageStorage, on_delete=models.CASCADE)
+    image = models.ForeignKey(ImageStorage, on_delete=models.CASCADE, default=None)
 
     # Added to prevent Virtual Studio Code from flagging accessing 'objects' as an error.
     objects = models.Manager()

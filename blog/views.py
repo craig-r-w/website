@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.utils import timezone
 from .models import Post
+from .forms import PostForm
+
+from datetime import datetime
 
 from django.core.paginator import Paginator
 from django.templatetags.static import static
@@ -30,18 +33,31 @@ def view_post(request, private_key):
 
     title = post.title
     content = post.content
-    author = ""
+    author = getStringUserName(post.author)
     image_url = static("images/" + post.image.name)
     published = post.published_date.date()
 
-    if(post.author.first_name):
+    return render(request, 'blog/display_post.html', {'title':title, 'content': content, 'author':author, 'published': published, "image_url": image_url, })
+
+def create_post(request):
+    form = PostForm()
+    user = getStringUserName(request.user)
+    created_date = datetime.now().date()
+
+    return render(request, 'blog/create_post.html', {'form': form, 'user': user, 'created_date': created_date})
+
+# Takes in a user object and attempts to display it nicely as a string.
+def getStringUserName(user):
+    name = ""
+
+    if(user.first_name):
         # The first name field is not blank, so use that.
-        author = post.author.first_name.capitalize()
-        if(post.author.last_name):
+        name = user.first_name.capitalize()
+        if(user.last_name):
             # Add on the second name if that exists.
-            author += " " + post.author.last_name.capitalize()
+            name += " " + user.last_name.capitalize()
     else:
         # Use the username.
-        author = post.author.username.capitalize()
-
-    return render(request, 'blog/display_post.html', {'title':title, 'content': content, 'author':author, 'published': published, "image_url": image_url, })
+        name = user.username.capitalize()
+    
+    return name
