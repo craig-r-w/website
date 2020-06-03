@@ -11,7 +11,7 @@
             <div class="col-sm-4 d-flex align-items-stretch" style="padding-bottom:1em;">
                 <div class="card bg-light">
                     <!-- Top display image. -->
-                    <img src="{% static 'images/blur-close-up-code-computer.jpg' %}" alt="Image for {{ post.title }}" class="card-img-top">
+                    <img src="{% static 'images/'|add:post.image.name %}" alt="Image for {{ post.title }}" class="card-img-top">
                     
                     <!-- Main contents. -->
                     <div class="card-body">
@@ -19,7 +19,8 @@
 
                         <p class="card-text">{{ post.content|truncatewords:30 }}</p>
 
-                        <a class="stretched-link" href="#"></a>
+                        {# 'view_post' is the name of the view to be redirected to #}
+                        <a class="stretched-link" href="{% url 'view_post' private_key=post.pk %}"></a>
                     </div>
 
                     <!-- Extra info. -->

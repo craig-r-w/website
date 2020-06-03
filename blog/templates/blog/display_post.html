@@ -1,0 +1,21 @@
+{% extends 'blog/wrapper.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<h1>
+    {{ title }}
+</h1>
+
+<h5>
+    <small class="text-muted">
+        Published {{ published }} by {{ author }}
+    </small>
+</h5>
+
+<img class="rounded float-right" style="width:40%; margin-left: 1%;" src="{{ image_url }}" alt="Image for {{ title }}">
+
+{{ content }}
+
+{% endblock %}

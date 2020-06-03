@@ -2,7 +2,17 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-# Django automatically assigns a primary keyt field 'id'.
+# Django automatically assigns a primary key field 'id'.
+class ImageStorage(models.Model):
+    # The name and type of the file within static (max of 256 characters)
+    # e.g. test_image.png
+    name = models.CharField(max_length=256, verbose_name="Filename")
+
+    # String value of a ImageStorage
+    def __str__(self):
+        return self.name
+
+# Django automatically assigns a primary key field 'id'.
 class Post(models.Model):
     # Set the author to the user currently logged in.
     # ForeignKey is used as it is a link to antother model (the User model).
@@ -20,6 +30,8 @@ class Post(models.Model):
     # Allow the published_date to be blank and null, and set its display name to 'Published Date'.
     published_date = models.DateTimeField(blank=True, null=True, verbose_name="Date Published")
 
+    # The image to be displayed on the post.
+    image = models.ForeignKey(ImageStorage, on_delete=models.CASCADE)
 
     # Added to prevent Virtual Studio Code from flagging accessing 'objects' as an error.
     objects = models.Manager()
@@ -32,3 +44,4 @@ class Post(models.Model):
     # String value of a Post
     def __str__(self):
         return self.title
+    
