@@ -12,5 +12,4 @@ class PostForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Content'}),
             'image': forms.RadioSelect(attrs={'class': 'input-hidden'}),
-            # Select
         }

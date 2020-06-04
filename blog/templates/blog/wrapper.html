@@ -14,7 +14,7 @@
 
   <!-- Load jquery and Bootstrap JavaScript. -->
   <script type="text/javascript" src="{% static 'js/jquery.slim.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 </head>
 
@@ -54,6 +54,12 @@
     </div>
 
   </nav>
+
+  <!-- Title -->
+  <div class="container-fluid" style="width: 90%">
+    {% block title %}
+    {% endblock %}
+  </div>
 
   <!-- Main content. -->
   <div class="container-fluid" style="width: 90%">

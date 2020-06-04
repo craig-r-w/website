@@ -22,7 +22,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, verbose_name="Title")
     
     # Store the content of the blog post into a variable length text field.
-    content = models.TextField(verbose_name="Content")
+    content = models.TextField(verbose_name="Content", blank=True)
 
     # Set the default value to the current time and set its display name to 'Created Date'.
     created_date = models.DateTimeField(default=timezone.now, verbose_name="Date Created")
@@ -31,14 +31,20 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True, verbose_name="Date Published")
 
     # The image to be displayed on the post.
-    image = models.ForeignKey(ImageStorage, on_delete=models.CASCADE, default=None)
+    image = models.ForeignKey(ImageStorage, on_delete=models.CASCADE)
 
     # Added to prevent Virtual Studio Code from flagging accessing 'objects' as an error.
     objects = models.Manager()
 
     # Called when a Post is published: so change the published date to the current date.
-    def publish(self):
+    def publish(self, author):
         self.published_date = timezone.now()
+        self.author = author
+        self.save()
+
+    # Used to set the author (as this field cannot be blank).
+    def setAuthor(self, author):
+        self.author = author
         self.save()
 
     # String value of a Post

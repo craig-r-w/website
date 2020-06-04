@@ -1,69 +1,151 @@
 {% extends 'blog/wrapper.html' %}
 {% load static %}
 
+{% block title %}
+    <h1>
+        {% if title %}
+            Edit '{{ title }}'
+        {% else %}
+            Create New Post
+        {% endif%}
+    </h1>
+
+    <h5>
+        <div class="row">
+            <small class="text-muted col-sm-6">
+                Created {{ created_date }} by {{ user }}
+                <!-- Y-m-d H:i:s -->
+            </small>
+
+            <small class="text-muted col-sm-6">
+                {% if published_date %}
+                    Published: {{ published_date }}
+                {% endif %}
+            </small>
+        </div>
+    </h5>
+{% endblock %}
+
 
 {% block content %}
+    <!-- Display the form. -->
+    <form method="POST" class="post-form">{% csrf_token %}
 
-<h1>
-    Create New Post
-</h1>
-
-<h5>
-    <small class="text-muted">
-        Created {{ created_date }} by {{ user }}
-        <!-- Y-m-d H:i:s -->
-    </small>
-</h5>
-
-<form method="POST" class="post-form">{% csrf_token %}
-    
-    <div class="form-group row">
-        <!--
-            <label class="col-sm-2 col-form-label" for="id_title">
-                Title
-            </label>
-        -->
-        <div class="col-sm-6">
-            {{ form.title }}
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <div class="col-sm-12">
-            {{ form.content }}
-        </div>
-    </div>
-
-    {{ form.image.errors.as_text }}
-
-    <div class="container-fluid" required>
-    <div class="form-group row justify-content-center">
-    {% for radio in form.image %}
-    
-    {# A workaround used due to Django assigning a blank option when no default value is set. #}
-    {% if radio.choice_label != "---------" %}
-    
-    
-        <div class="col-sm-3">
-            {# Display a (hidden) radio button. #}
-            {{ radio.tag }}
-
-            <!-- Attach an image to the radio button. -->
-            <label for="{{ radio.id_for_label }}">
-                <img class="img-fluid rounded" src="{% static 'images/'|add:radio.choice_label %}" alt="Image for {{ radio.choice_label }}">
-            </label>
+        <!-- The title texbox. -->
+        <div class="form-group row">
+            <!--
+                <label class="col-sm-2 col-form-label" for="id_title">
+                    Title
+                </label>
+            -->
+            <div class="col-sm-6">
+                {{ form.title }}
+            </div>
         </div>
 
-    {% endif %}
+        <!-- The content text area. -->
+        <div class="form-group row">
+            <div class="col-sm-12">
+                {{ form.content }}
+            </div>
+        </div>
 
-    <script>
-        
-    </script>
+        <!-- The image selection. -->
+        <div class="container-fluid">
+            <div class="form-group row justify-content-center">
 
-    {% endfor %}
-    </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+                {% for radio in form.image %}
+
+                    {# A workaround used due to Django assigning a blank option when no default value is set. #}
+                    {% if radio.choice_label != "---------" %}
+
+
+                    <div class="col-sm-3">
+                        {# Display a (hidden) radio button. #}
+                        {{ radio.tag }}
+
+                        <!-- Attach an image to the radio button. -->
+                        <label for="{{ radio.id_for_label }}">
+                            <img class="img-fluid rounded" src="{% static 'images/'|add:radio.choice_label %}" alt="Image for {{ radio.choice_label }}">
+                        </label>
+                    </div>
+
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- The option buttons. -->
+        <div class="row justify-content-center">
+            <!-- Save the current post. -->
+            <div class="col-sm-6" style="margin-bottom: 1%;">
+                <button name="save" type="submit" class="btn btn-primary btn-block btn-info">
+                    {% if published_date %}
+                        Save & Update
+                    {% else %}
+                        Save
+                    {% endif %}
+                </button>
+            </div>
+            
+            {% if published_date %}
+                <div class="dropdown col-sm-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Publish Options
+                    </button>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button name="publish" type="submit" class="dropdown-item">Save & Re-Publish</button>
+                        <button name="unpublish" type="submit" class="dropdown-item">Save & Un-Publish</button>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Publish the current post. -->
+                <div class="col-sm-6" style="margin-bottom: 1%;">
+                    <button name="publish" type="submit" class="btn btn-primary btn-block">Publish</button>
+                </div>
+            {% endif %}
+
+
+                <!-- Options. --
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% if published_date %}
+                        <!-- Already published. -- 
+                        <button name="publish" type="submit" class="dropdown-item">Save & Re-Publish</button>
+                        <button name="unpublish" type="submit" class="dropdown-item">Save & Un-Publish</button>
+                    {% else %}
+                        <!-- Not yet published. --
+                        <button name="publish" type="submit" class="dropdown-item">Save & Publish</button>
+                    {% endif %}
+                </div>
+                -->
+            </div>
+            
+            
+            
+            
+            <!--
+            {% if published_date %}
+                !-- The --
+                <div class="col-sm-6" style="margin-bottom: 1%;">
+                    <button name="update" type="submit" class="btn btn-primary btn-block">Save & Update</button>
+                </div>
+
+                <div class="col-sm-6" style="margin-bottom: 1%;">
+                    <button name="publish" type="submit" class="btn btn-primary btn-block">Save & Re-publish</button>
+                </div>
+
+                <div class="col-sm-6" style="margin-bottom: 1%;">
+                    <button name="unpublish" type="submit" class="btn btn-primary btn-block">Save & Unpublish</button>
+                </div>
+            {% else %}
+                <div class="col-sm-6" style="margin-bottom: 1%;">
+                    <button name="publish" type="submit" class="btn btn-primary btn-block">Save & Publish</button>
+                </div>
+            {% endif %}
+            -->
+        </div>
+    </form>
 
 {% endblock %}

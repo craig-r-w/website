@@ -20,7 +20,7 @@
                         <p class="card-text">{{ post.content|truncatewords:30 }}</p>
 
                         {# 'view_post' is the name of the view to be redirected to #}
-                        <a class="stretched-link" href="{% url 'view_post' private_key=post.pk %}"></a>
+                        <a class="stretched-link" href="{% url 'view_post' primary_key=post.pk %}"></a>
                     </div>
 
                     <!-- Extra info. -->

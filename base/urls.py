@@ -21,6 +21,7 @@ from blog import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'), # Direct to the home view when no url directory is given.
-    path('post/<int:private_key>/', views.view_post, name='view_post'), # Direct to the selected post.
+    path('post/<int:primary_key>/', views.view_post, name='view_post'), # Direct to the selected post.
     path('post/new/', views.create_post, name='create_post'), # Create a new Post.
+    path('post/edit/<int:primary_key>/', views.edit_post, name='edit_post'), # Direct to the selected post.
 ]
