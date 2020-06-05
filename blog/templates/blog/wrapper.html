@@ -42,30 +42,46 @@
           </a>
         </li>
 
-        <!-- View All Posts. -->
-        <li class="nav-item">
-          <a class="nav-link" href="/posts/all">
-            View All Posts
-          </a>
-        </li>
+        {# Display these options if the user is logged in. #}
+        {% if user.is_authenticated %}
+          <!-- View All Posts. -->
+          <li class="nav-item">
+            <a class="nav-link" href="/posts/all">
+              View All Posts
+            </a>
+          </li>
 
-        <!-- View Unpublished Posts. -->
-        <li class="nav-item">
-          <a class="nav-link" href="/posts/unpublished">
-            View Unpublished Posts
-          </a>
-        </li>
+          <!-- View Unpublished Posts. -->
+          <li class="nav-item">
+            <a class="nav-link" href="/posts/unpublished">
+              View Unpublished Posts
+            </a>
+          </li>
 
-        <li class="nav-item">
-          <!--disabled-->
-          <a class="nav-link" href="/post/new">New Post</a>
-        </li>
+          <li class="nav-item">
+            <!--disabled-->
+            <a class="nav-link" href="/post/new">New Post</a>
+          </li>
 
-        <!-- Login button. -->
-        <li class="nav-item">
-          <a class="nav-link" href="/admin">Admin Zone</a>
-        </li>
+          {% if user.is_superuser %}
+            <!-- Go to admin area. -->
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Admin Zone</a>
+            </li>
+          {% endif %}
+        {% endif %}
 
+        {% if user.is_authenticated == False %}
+            <!-- Go to login page. -->
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+        {% else %}
+          <!-- Logout the user. -->
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        {% endif %}
     </div>
 
   </nav>

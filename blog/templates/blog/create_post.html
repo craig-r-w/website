@@ -13,7 +13,7 @@
     <h5>
         <div class="row">
             <small class="text-muted col-sm-6">
-                Created {{ created_date }} by {{ user }}
+                Created {{ created_date }} by {{ author }}
                 <!-- Y-m-d H:i:s -->
             </small>
 
@@ -104,7 +104,7 @@
         <div class="row justify-content-center">
             <!-- Save the current post. -->
             <div class="col-sm-6" style="margin-bottom: 1%;">
-                <button name="save" type="submit" class="btn btn-primary btn-block btn-info">
+                <button name="save" type="submit" class="btn btn-block btn-info">
                     {% if published_date %}
                         Save & Update
                     {% else %}
@@ -131,44 +131,7 @@
                 </div>
             {% endif %}
 
-
-                <!-- Options. --
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% if published_date %}
-                        <!-- Already published. -- 
-                        <button name="publish" type="submit" class="dropdown-item">Save & Re-Publish</button>
-                        <button name="unpublish" type="submit" class="dropdown-item">Save & Un-Publish</button>
-                    {% else %}
-                        <!-- Not yet published. --
-                        <button name="publish" type="submit" class="dropdown-item">Save & Publish</button>
-                    {% endif %}
-                </div>
-                -->
             </div>
-            
-            
-            
-            
-            <!--
-            {% if published_date %}
-                !-- The --
-                <div class="col-sm-6" style="margin-bottom: 1%;">
-                    <button name="update" type="submit" class="btn btn-primary btn-block">Save & Update</button>
-                </div>
-
-                <div class="col-sm-6" style="margin-bottom: 1%;">
-                    <button name="publish" type="submit" class="btn btn-primary btn-block">Save & Re-publish</button>
-                </div>
-
-                <div class="col-sm-6" style="margin-bottom: 1%;">
-                    <button name="unpublish" type="submit" class="btn btn-primary btn-block">Save & Unpublish</button>
-                </div>
-            {% else %}
-                <div class="col-sm-6" style="margin-bottom: 1%;">
-                    <button name="publish" type="submit" class="btn btn-primary btn-block">Save & Publish</button>
-                </div>
-            {% endif %}
-            -->
         </div>
     </form>
 

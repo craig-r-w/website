@@ -6,6 +6,7 @@ from .forms import PostForm
 
 from django.core.paginator import Paginator
 from django.templatetags.static import static
+from django.contrib.auth.decorators import login_required
 
 # Helper function to returns the posts rendered as pages.
 def displayAsPages(request, posts):
@@ -36,10 +37,13 @@ def view_published(request):
     return displayAsPages(request, posts)
 
 # View all the posts, even if they are not published.
+@login_required
 def view_all(request):
     posts = Post.objects.all()
+    posts = posts.order_by('-created_date')
     return displayAsPages(request, posts)
 
+@login_required
 def view_unpublished(request):
     # Only get unpublished posts.
     posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
@@ -64,6 +68,7 @@ def view_post(request, primary_key):
     return render(request, 'blog/display_post.html', {'title': title, 'content': content, 'author': author, 'published': published, "image_url": image_url, 'primary_key': primary_key})
 
 # Create a new post.
+@login_required
 def create_post(request):
     # A default blank form.
     form = PostForm()
@@ -72,11 +77,6 @@ def create_post(request):
     if request.method == "POST":
         # Get the form data.
         form = PostForm(request.POST)
-
-        # !!!
-        # PASS IN THE CREATED_DATE as a hidden input?
-        # Select fisrt radio element by id
-        # !!!
 
         if form.is_valid():
             # commit=False to make changes before the Post is saved.
@@ -93,12 +93,12 @@ def create_post(request):
             return redirect(edit_post, primary_key=post.pk)
 
     # Basic info.
-    user = getStringUserName(request.user)
+    author = getStringUserName(request.user)
     created_date = timezone.now()
 
-    return render(request, 'blog/create_post.html', {'form': form, 'user': user, 'created_date': created_date})
+    return render(request, 'blog/create_post.html', {'form': form, 'author': author, 'created_date': created_date})
 
-
+@login_required
 def edit_post(request, primary_key):
     post = get_object_or_404(Post, pk=primary_key)
     form = PostForm(instance=post)
@@ -128,13 +128,13 @@ def edit_post(request, primary_key):
 
     primary_key = post.pk
     title = post.title
-    user = getStringUserName(post.author)
+    author = getStringUserName(post.author)
     created_date = post.created_date.date()
     published_date = None
     if post.published_date:
         published_date = post.published_date  # .date()
 
-    return render(request, 'blog/create_post.html', {'title': title, 'form': form, 'user': user, 'created_date': created_date, 'published_date': published_date, 'primary_key': primary_key})
+    return render(request, 'blog/create_post.html', {'title': title, 'form': form, 'author': author, 'created_date': created_date, 'published_date': published_date, 'primary_key': primary_key})
 
 
 # Takes in a user object and attempts to display it nicely as a string.
