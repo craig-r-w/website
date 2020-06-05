@@ -7,13 +7,8 @@ from .forms import PostForm
 from django.core.paginator import Paginator
 from django.templatetags.static import static
 
-# The home view- displays blog posts in pages.
-def home(request):
-    # Select only articles that have been published after the current date.
-    # Order by newest first.
-    posts = Post.objects.filter(
-        published_date__lte=timezone.now()).order_by('-published_date')
-
+# Helper function to returns the posts rendered as pages.
+def displayAsPages(request, posts):
     # Show 3 posts per page.
     paginator = Paginator(posts, 3)
 
@@ -26,6 +21,30 @@ def home(request):
 
     return render(request, 'blog/display_posts.html', {'page': page})
 
+# The home view- displays blog posts in pages.
+def view_published(request):
+    
+    # This selects only articles that have been published after the current date.
+    # posts = Post.objects.filter(published_date__lte=timezone.now())
+    
+    #This selects all posts that have been declared as published.
+    posts = Post.objects.filter(published_date__isnull=False)
+
+    # Order by newest first.
+    posts = posts.order_by('-published_date')
+
+    return displayAsPages(request, posts)
+
+# View all the posts, even if they are not published.
+def view_all(request):
+    posts = Post.objects.all()
+    return displayAsPages(request, posts)
+
+def view_unpublished(request):
+    # Only get unpublished posts.
+    posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
+    return displayAsPages(request, posts)
+
 # Viewing an individual post.
 def view_post(request, primary_key):
 
@@ -37,9 +56,12 @@ def view_post(request, primary_key):
     content = post.content
     author = getStringUserName(post.author)
     image_url = static("images/" + post.image.name)
-    published = post.published_date.date()
+    published = None
+    if post.published_date:
+        published = post.published_date.date()
+    primary_key = post.pk
 
-    return render(request, 'blog/display_post.html', {'title': title, 'content': content, 'author': author, 'published': published, "image_url": image_url, })
+    return render(request, 'blog/display_post.html', {'title': title, 'content': content, 'author': author, 'published': published, "image_url": image_url, 'primary_key': primary_key})
 
 # Create a new post.
 def create_post(request):
@@ -104,6 +126,7 @@ def edit_post(request, primary_key):
             # Save the Post.
             post.save()
 
+    primary_key = post.pk
     title = post.title
     user = getStringUserName(post.author)
     created_date = post.created_date.date()
@@ -111,7 +134,7 @@ def edit_post(request, primary_key):
     if post.published_date:
         published_date = post.published_date  # .date()
 
-    return render(request, 'blog/create_post.html', {'title': title, 'form': form, 'user': user, 'created_date': created_date, 'published_date': published_date})
+    return render(request, 'blog/create_post.html', {'title': title, 'form': form, 'user': user, 'created_date': created_date, 'published_date': published_date, 'primary_key': primary_key})
 
 
 # Takes in a user object and attempts to display it nicely as a string.

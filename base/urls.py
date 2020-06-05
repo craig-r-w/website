@@ -20,8 +20,12 @@ from blog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'), # Direct to the home view when no url directory is given.
+    path('', views.view_published, name='view_published'), # Direct to the published posts view when no url directory is given.
     path('post/<int:primary_key>/', views.view_post, name='view_post'), # Direct to the selected post.
     path('post/new/', views.create_post, name='create_post'), # Create a new Post.
     path('post/edit/<int:primary_key>/', views.edit_post, name='edit_post'), # Direct to the selected post.
+    
+    path('posts/all', views.view_all, name='view_all'), # Display all posts.
+    path('posts/unpublished', views.view_unpublished, name='view_unpublished'), # Display unpublished posts.
+    path('posts/published', views.view_published, name='view_published'), # Display published posts.
 ]

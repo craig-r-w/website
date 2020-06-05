@@ -25,7 +25,15 @@
 
                     <!-- Extra info. -->
                     <div class="card-footer">
-                        <small class="text-muted">Published {{ post.published_date|timesince }} ago. </small>
+                        <small class="text-muted">
+                            {% if post.published_date %}
+                                Published {{ post.published_date|timesince }} ago.
+                            {% else %}
+                                <b>
+                                    Not published.
+                                </b>
+                            {% endif %}
+                        </small>
                     </div>
                 </div>
             </div>
