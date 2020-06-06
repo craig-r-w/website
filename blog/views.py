@@ -9,7 +9,7 @@ from django.templatetags.static import static
 from django.contrib.auth.decorators import login_required
 
 # Helper function to returns the posts rendered as pages.
-def displayAsPages(request, posts):
+def displayAsPages(request, posts, pageTitle=""):
     # Show 3 posts per page.
     paginator = Paginator(posts, 3)
 
@@ -20,7 +20,7 @@ def displayAsPages(request, posts):
     # Select the relevant page.
     page = paginator.get_page(page_number)
 
-    return render(request, 'blog/display_posts.html', {'page': page})
+    return render(request, 'blog/display_posts.html', {'page': page, 'title': pageTitle})
 
 # The home view- displays blog posts in pages.
 def view_published(request):
@@ -34,6 +34,9 @@ def view_published(request):
     # Order by newest first.
     posts = posts.order_by('-published_date')
 
+    if request.user.is_authenticated:
+        return displayAsPages(request, posts, "Published Posts")   
+
     return displayAsPages(request, posts)
 
 # View all the posts, even if they are not published.
@@ -41,13 +44,13 @@ def view_published(request):
 def view_all(request):
     posts = Post.objects.all()
     posts = posts.order_by('-created_date')
-    return displayAsPages(request, posts)
+    return displayAsPages(request, posts, "All Posts")
 
 @login_required
 def view_unpublished(request):
     # Only get unpublished posts.
     posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
-    return displayAsPages(request, posts)
+    return displayAsPages(request, posts, "Unpublished Posts")
 
 # Viewing an individual post.
 def view_post(request, primary_key):
@@ -126,7 +129,6 @@ def edit_post(request, primary_key):
             # Save the Post.
             post.save()
 
-    primary_key = post.pk
     title = post.title
     author = getStringUserName(post.author)
     created_date = post.created_date.date()
@@ -136,6 +138,23 @@ def edit_post(request, primary_key):
 
     return render(request, 'blog/create_post.html', {'title': title, 'form': form, 'author': author, 'created_date': created_date, 'published_date': published_date, 'primary_key': primary_key})
 
+@login_required
+def delete_post(request, primary_key):
+    post = get_object_or_404(Post, pk=primary_key)    
+    
+    title = post.title
+
+    # If the user has decided to delete the post.
+    # GET the confirm tage.
+    # e.g. ?confirm=true
+    confirm = request.GET.get('confirm')
+
+    if confirm == "true":
+        # Delete the post.
+        post.delete()
+        return redirect(view_all)
+
+    return render(request, 'blog/delete_post.html', {'title': title,'primary_key': primary_key})
 
 # Takes in a user object and attempts to display it nicely as a string.
 def getStringUserName(user):

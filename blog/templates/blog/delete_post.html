@@ -1,0 +1,35 @@
+{% extends 'blog/wrapper.html' %}
+{% load static %}
+
+{% block title %}
+    <h1>
+        Delete '{{ title }}'?
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light">
+        <div class="card-body">
+            <h3 class="card-title">Are you sure you want to delete '{{ title }}'?</h3>
+
+            <p class="card-text">This cannot be undone.</p>
+        </div>
+        
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-sm-6" style="margin-bottom: 1%;">
+                        <a class="btn btn-secondary btn-block" href="{% url 'edit_post' primary_key=primary_key %}">
+                            Return to Edit Post
+                        </a>
+                    </div>
+                    <div class="col-sm-6" style="margin-bottom: 1%;">
+                        <a class="btn btn-danger btn-block" href="?confirm=true">
+                            DELETE
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

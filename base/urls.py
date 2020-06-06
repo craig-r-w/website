@@ -25,6 +25,7 @@ urlpatterns = [
     path('post/<int:primary_key>/', views.view_post, name='view_post'), # Direct to the selected post.
     path('post/new/', views.create_post, name='create_post'), # Create a new Post.
     path('post/edit/<int:primary_key>/', views.edit_post, name='edit_post'), # Direct to the selected post.
+    path('post/delete/<int:primary_key>/', views.delete_post, name='delete_post'), # Delete the selected post.
     
     path('posts/all', views.view_all, name='view_all'), # Display all posts.
     path('posts/unpublished', views.view_unpublished, name='view_unpublished'), # Display unpublished posts.
