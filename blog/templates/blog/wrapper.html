@@ -38,23 +38,28 @@
         <!-- Home button. -->
         <li class="nav-item">
           <a class="nav-link" href="/">
-            View Posts
+            {# Make the label clearer for logged in users. #}
+            {% if user.is_authenticated %}
+              View Published Posts
+            {% else %}
+              View Posts
+            {% endif %}
           </a>
         </li>
 
         {# Display these options if the user is logged in. #}
         {% if user.is_authenticated %}
-          <!-- View All Posts. -->
-          <li class="nav-item">
-            <a class="nav-link" href="/posts/all">
-              View All Posts
-            </a>
-          </li>
-
           <!-- View Unpublished Posts. -->
           <li class="nav-item">
             <a class="nav-link" href="/posts/unpublished">
               View Unpublished Posts
+            </a>
+          </li>
+
+          <!-- View All Posts. -->
+          <li class="nav-item">
+            <a class="nav-link" href="/posts/all">
+              View All Posts
             </a>
           </li>
 
