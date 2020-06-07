@@ -1,0 +1,32 @@
+{% extends 'blog/create_post.html' %}
+{% load static %}
+
+{% block title_main %}
+    Create New Post
+{% endblock %}
+
+{% block title_subtitle %}
+    <small class="text-muted">
+        Created by {{ author }}
+    </small>
+{% endblock %}
+
+{% block image_selection %}
+    <!-- An image has not yet been selected, so display them all on screen. -->
+    <div class="form-group row justify-content-center" style="padding: 2%;">
+        {% for radio in form.image %}
+            {# Used due to Django assigning a blank option when no default value is set. #}
+            {% if radio.choice_label != "---------" %}
+                <div class="col-md-3">
+                    {# Display a (hidden) radio button. #}
+                    {{ radio.tag }}
+
+                    <!-- Attach an image to the radio button. -->
+                    <label for="{{ radio.id_for_label }}">
+                        <img class="img-fluid rounded" src="{% static 'images/'|add:radio.choice_label %}" alt="Image for {{ radio.choice_label }}">
+                    </label>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

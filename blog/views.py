@@ -97,9 +97,8 @@ def create_post(request):
 
     # Basic info.
     author = getStringUserName(request.user)
-    created_date = timezone.now()
 
-    return render(request, 'blog/create_post.html', {'form': form, 'author': author, 'created_date': created_date})
+    return render(request, 'blog/new_post.html', {'form': form, 'author': author})
 
 @login_required
 def edit_post(request, primary_key):
@@ -136,7 +135,7 @@ def edit_post(request, primary_key):
     if post.published_date:
         published_date = post.published_date  # .date()
 
-    return render(request, 'blog/create_post.html', {'title': title, 'form': form, 'author': author, 'created_date': created_date, 'published_date': published_date, 'primary_key': primary_key})
+    return render(request, 'blog/edit_post.html', {'title': title, 'form': form, 'author': author, 'created_date': created_date, 'published_date': published_date, 'primary_key': primary_key})
 
 @login_required
 def delete_post(request, primary_key):
