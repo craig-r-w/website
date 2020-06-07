@@ -23,9 +23,17 @@
                     
                     <!-- Main contents. -->
                     <div class="card-body">
-                        <h3 class="card-title">{{ post.title }}</h3>
+                        <h3 class="card-title">
+                            {{ post.title }}
+                        </h3>
 
-                        <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                        <p class="card-text">
+                            {% if post.is_html %}
+                                {{ post.content|safe|truncatewords_html:30 }}
+                            {% else %}
+                                {{ post.content|truncatewords:30 }}
+                            {% endif %}
+                        </p>
 
                         {# 'view_post' is the name of the view to be redirected to #}
                         <a class="stretched-link" href="{% url 'view_post' primary_key=post.pk %}"></a>

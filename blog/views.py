@@ -8,7 +8,17 @@ from django.core.paginator import Paginator
 from django.templatetags.static import static
 from django.contrib.auth.decorators import login_required
 
-# Helper function to returns the posts rendered as pages.
+#HELPER FUNCTIONS:
+
+# Check if the content starts with a given string.
+def doesStartWith(search, content):
+    return content[:len(search)].lower() == str(search)
+
+# Remove the start of the content.
+def removeFromStart(search, content):
+    return content[len(str(search)):]
+
+# Returns the posts rendered as pages.
 def displayAsPages(request, posts, pageTitle=""):
     # Show 3 posts per page.
     paginator = Paginator(posts, 3)
@@ -20,7 +30,18 @@ def displayAsPages(request, posts, pageTitle=""):
     # Select the relevant page.
     page = paginator.get_page(page_number)
 
+    for item in page.object_list:
+        # Check if the content starts with "=html=".
+        is_html = doesStartWith("=html=", item.content)
+        if is_html:
+            # Disclude the first 6 characters ("=html=").
+            item.content = removeFromStart("=html=", item.content)
+            item.is_html = True
+
     return render(request, 'blog/display_posts.html', {'page': page, 'title': pageTitle})
+
+##################################################################
+# VIEW FUNCTIONS:
 
 # The home view- displays blog posts in pages.
 def view_published(request):
@@ -68,7 +89,13 @@ def view_post(request, primary_key):
         published = post.published_date.date()
     primary_key = post.pk
 
-    return render(request, 'blog/display_post.html', {'title': title, 'content': content, 'author': author, 'published': published, "image_url": image_url, 'primary_key': primary_key})
+    # Check if the content starts with "=html=".
+    is_html = doesStartWith("=html=", content)
+    if is_html:
+        # Disclude the first 6 characters ("=html=").
+        content = removeFromStart("=html=", content)
+
+    return render(request, 'blog/display_post.html', {'title': title, 'content': content, 'author': author, 'published': published, "image_url": image_url, 'primary_key': primary_key, 'is_html': is_html})
 
 # Create a new post.
 @login_required
