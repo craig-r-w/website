@@ -138,4 +138,8 @@ db.sqlite3
 /static
 .DS_Store
 
+# Do not save the static files.
 /staticfiles
+
+# Ignore the secret key.
+base/secrets.py
