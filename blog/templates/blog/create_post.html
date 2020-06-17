@@ -21,7 +21,7 @@
     </div>
 
     <!-- The subtitle. -->
-    <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+    <div class="row subtitle">
         <div class="col-sm-6">
             {% block title_subtitle %}
             {% endblock %}
@@ -51,8 +51,8 @@
             <div class="col-1">
                 <!-- Show from the right. -->
                 <div class="d-flex flex-row-reverse">
-                    <div data-toggle="tooltip" title="Start the content with '=html=' to enable HTML mode." class="btn-info" style="border-radius: 2em; width:2em; height: 2em;">
-                        <svg class="bi bi-question-circle" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <div data-toggle="tooltip" title="Start the content with '=html=' to enable HTML mode." class="btn-info help">
+                        <svg class="bi bi-question-circle help" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                             <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
                         </svg>
@@ -69,7 +69,7 @@
         </div>
 
         <!-- Image selection. -->
-        <div class="row justify-content-center" style="margin-bottom: 1%;">
+        <div class="row justify-content-center option-button">
             {% block image_selection %}
             {% endblock %}
         </div>
@@ -79,7 +79,7 @@
             {% block options %}
                 {# By default, show a Save and Publish button. #}
                 <!-- Save the current post. -->
-                <div class="col-sm-6" style="margin-bottom: 1%;">
+                <div class="col-sm-6 option-button">
                     <button name="save" type="submit" class="btn btn-block btn-info">
                         <svg class="bi bi-upload" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8zM5 4.854a.5.5 0 0 0 .707 0L8 2.56l2.293 2.293A.5.5 0 1 0 11 4.146L8.354 1.5a.5.5 0 0 0-.708 0L5 4.146a.5.5 0 0 0 0 .708z"/>
@@ -91,7 +91,7 @@
                 </div>
 
                 <!-- Publish the current post. -->
-                <div class="col-sm-6" style="margin-bottom: 1%;">
+                <div class="col-sm-6 option-button">
                     <button name="publish" type="submit" class="btn btn-primary btn-block">
                         <svg class="bi bi-layout-text-window" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>

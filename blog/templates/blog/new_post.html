@@ -13,11 +13,12 @@
 
 {% block image_selection %}
     <!-- An image has not yet been selected, so display them all on screen. -->
-    <div class="form-group row justify-content-center" style="padding: 2%;">
+    <div class="image-selector form-group row justify-content-center">
         {% for radio in form.image %}
             {# Used due to Django assigning a blank option when no default value is set. #}
             {% if radio.choice_label != "---------" %}
-                <div class="col-md-3">
+                <!-- Display 6 on a large screen, 4 on a medium screen and 2 on a small screen. -->
+                <div class="col-lg-2 col-md-3 col-6">
                     {# Display a (hidden) radio button. #}
                     {{ radio.tag }}
 

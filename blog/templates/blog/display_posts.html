@@ -16,7 +16,7 @@
         {# Display each post. #}
         {% for post in page %}
             <!-- The width of the columns adds up to 12 for one row. -->
-            <div class="col-sm-4 d-flex align-items-stretch" style="padding-bottom:1em;">
+            <div class="col-md-4 d-flex align-items-stretch card-gap">
                 <div class="card bg-light">
                     <!-- Top display image. -->
                     <img src="{% static 'images/'|add:post.image.name %}" alt="Image for {{ post.title }}" class="card-img-top">
@@ -58,7 +58,7 @@
 
     <!-- Display options to access other pages. -->
     {% if page.has_other_pages %}
-        <nav>
+        <nav class="page-bar">
             <ul class="pagination justify-content-center">
 
                 {# Disable the link if no previous page exists. #}
