@@ -31,7 +31,7 @@
                             {% if post.is_html %}
                                 {{ post.content|safe|truncatewords_html:30 }}
                             {% else %}
-                                {{ post.content|truncatewords:30 }}
+                                {{ post.content|linebreaks|truncatewords:30 }}
                             {% endif %}
                         </p>
 
