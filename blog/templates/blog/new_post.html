@@ -30,4 +30,12 @@
             {% endif %}
         {% endfor %}
     </div>
+
+    <script>
+        //Attempt to select the first radio button.
+        first = document.getElementById("id_image_1")
+        if(first){
+            first.checked = true;
+        }
+    </script>
 {% endblock %}
